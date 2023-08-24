@@ -24,3 +24,54 @@ public class QuickSortMedianOfThree<T extends Comparable<T>> extends
 		throw new UnsupportedOperationException("Not implemented yet!");
 	}
 }
+/*public void sort(T[] array, int leftIndex, int rightIndex) {
+    if (leftIndex < rightIndex) {
+        int pivotIndex = medianOfThree(array, leftIndex, rightIndex);
+        swap(array, pivotIndex, rightIndex - 1);
+        
+        int i = leftIndex;
+        int j = rightIndex - 1;
+        
+        while (i <= j) {
+            while (array[i].compareTo(array[rightIndex - 1]) < 0) {
+                i++;
+            }
+            
+            while (array[j].compareTo(array[rightIndex - 1]) > 0) {
+                j--;
+            }
+            
+            if (i < j) {
+                swap(array, i, j);
+                i++;
+                j--;
+            }
+        }
+        
+        swap(array, i, rightIndex - 1);
+        
+        sort(array, leftIndex, i - 1);
+        sort(array, i + 1, rightIndex);
+    }
+}
+
+private int medianOfThree(T[] array, int leftIndex, int rightIndex) {
+    int centerIndex = (leftIndex + rightIndex) / 2;
+    if (array[leftIndex].compareTo(array[centerIndex]) > 0) {
+        swap(array, leftIndex, centerIndex);
+    }
+    if (array[leftIndex].compareTo(array[rightIndex]) > 0) {
+        swap(array, leftIndex, rightIndex);
+    }
+    if (array[centerIndex].compareTo(array[rightIndex]) > 0) {
+        swap(array, centerIndex, rightIndex);
+    }
+    return centerIndex;
+}
+
+private void swap(T[] array, int i, int j) {
+    T temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+}
+ */
