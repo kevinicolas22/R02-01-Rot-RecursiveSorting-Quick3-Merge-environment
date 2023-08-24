@@ -16,62 +16,61 @@ import sorting.AbstractSorting;
  * 5. Aplicar o particionamento considerando o vetor menor, de A[left+1] até A[right-1].
  * 6. Aplicar o algoritmo na particao a esquerda e na particao a direita do pivô.
  */
-public class QuickSortMedianOfThree<T extends Comparable<T>> extends
-		AbstractSorting<T> {
+public class QuickSortMedianOfThree<T extends Comparable<T>> extends AbstractSorting<T> {
 
-	public void sort(T[] array, int leftIndex, int rightIndex) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
-}
-/*public void sort(T[] array, int leftIndex, int rightIndex) {
-    if (leftIndex < rightIndex) {
-        int pivotIndex = medianOfThree(array, leftIndex, rightIndex);
-        swap(array, pivotIndex, rightIndex - 1);
-        
-        int i = leftIndex;
-        int j = rightIndex - 1;
-        
-        while (i <= j) {
-            while (array[i].compareTo(array[rightIndex - 1]) < 0) {
-                i++;
-            }
+    public void sort(T[] array, int leftIndex, int rightIndex) {
+        if (leftIndex < rightIndex) {
+            int pivotIndex = medianOfThree(array, leftIndex, rightIndex);
+            pivotIndex = partition(array, leftIndex, rightIndex, pivotIndex);
+            sort(array, leftIndex, pivotIndex - 1);
+            sort(array, pivotIndex + 1, rightIndex);
+        }
+    }
+
+    private int medianOfThree(T[] array, int left, int right) {
+        int center = (left + right) / 2;
+
+        if (array[left].compareTo(array[center]) > 0) {
+            swap(array, left, center);
+        }
+        if (array[left].compareTo(array[right]) > 0) {
+            swap(array, left, right);
+        }
+        if (array[center].compareTo(array[right]) > 0) {
+            swap(array, center, right);
+        }
+
+        swap(array, center, right - 1); // Move pivot to right-1
+
+        return right - 1; // Return pivot index
+    }
+
+    private int partition(T[] array, int left, int right, int pivotIndex) {
+        T pivotValue = array[pivotIndex];
+        int leftPointer = left;
+        int rightPointer = right - 1;
+
+        while (true) {
+            while (array[++leftPointer].compareTo(pivotValue) < 0);
+            while (array[--rightPointer].compareTo(pivotValue) > 0);
             
-            while (array[j].compareTo(array[rightIndex - 1]) > 0) {
-                j--;
-            }
-            
-            if (i < j) {
-                swap(array, i, j);
-                i++;
-                j--;
+            if (leftPointer >= rightPointer) {
+                break;
+            } else {
+                swap(array, leftPointer, rightPointer);
             }
         }
-        
-        swap(array, i, rightIndex - 1);
-        
-        sort(array, leftIndex, i - 1);
-        sort(array, i + 1, rightIndex);
+
+        // Restore pivot to its original position
+        swap(array, leftPointer, right - 1);
+
+        return leftPointer;
+    }
+
+    private void swap(T[] array, int i, int j) {
+        T temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 }
 
-private int medianOfThree(T[] array, int leftIndex, int rightIndex) {
-    int centerIndex = (leftIndex + rightIndex) / 2;
-    if (array[leftIndex].compareTo(array[centerIndex]) > 0) {
-        swap(array, leftIndex, centerIndex);
-    }
-    if (array[leftIndex].compareTo(array[rightIndex]) > 0) {
-        swap(array, leftIndex, rightIndex);
-    }
-    if (array[centerIndex].compareTo(array[rightIndex]) > 0) {
-        swap(array, centerIndex, rightIndex);
-    }
-    return centerIndex;
-}
-
-private void swap(T[] array, int i, int j) {
-    T temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-}
- */
