@@ -1,5 +1,7 @@
 package sorting.divideAndConquer.hybridMergesort;
 
+import java.util.Arrays;
+
 import sorting.AbstractSorting;
 
 /**
@@ -29,8 +31,73 @@ public class HybridMergeSort<T extends Comparable<T>> extends
 	protected static int MERGESORT_APPLICATIONS = 0;
 	protected static int INSERTIONSORT_APPLICATIONS = 0;
 
-	public void sort(T[] array, int leftIndex, int rightIndex) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
+	@Override
+    public void sort(T[] array, int leftIndex, int rightIndex) {
+        if (leftIndex < rightIndex) {
+            int size = rightIndex - leftIndex + 1;
+            
+            if (size <= SIZE_LIMIT) {
+                insertionSort(array, leftIndex, rightIndex);
+                INSERTIONSORT_APPLICATIONS++;
+            } else {
+                int middleIndex = (leftIndex + rightIndex) / 2;
+                sort(array, leftIndex, middleIndex);
+                sort(array, middleIndex + 1, rightIndex);
+                merge(array, leftIndex, middleIndex, rightIndex);
+                MERGESORT_APPLICATIONS++;
+            }
+        }
+    }
+
+    private void insertionSort(T[] array, int leftIndex, int rightIndex) {
+        for (int i = leftIndex + 1; i <= rightIndex; i++) {
+            T current = array[i];
+            int j = i - 1;
+            
+            while (j >= leftIndex && array[j].compareTo(current) > 0) {
+                array[j + 1] = array[j];
+                j--;
+            }
+            
+            array[j + 1] = current;
+        }
+    }
+
+	private void merge(T[] array, int leftIndex, int middleIndex, int rightIndex) {
+    int leftSize = middleIndex - leftIndex + 1;
+    int rightSize = rightIndex - middleIndex;
+
+    // Create temporary arrays for left and right subarrays
+    T[] leftArray = Arrays.copyOfRange(array, leftIndex, middleIndex + 1);
+    T[] rightArray = Arrays.copyOfRange(array, middleIndex + 1, rightIndex + 1);
+
+    int i = 0; // Index for left subarray
+    int j = 0; // Index for right subarray
+    int k = leftIndex; // Index for merged array
+
+    while (i < leftSize && j < rightSize) {
+        if (leftArray[i].compareTo(rightArray[j]) <= 0) {
+            array[k] = leftArray[i];
+            i++;
+        } else {
+            array[k] = rightArray[j];
+            j++;
+        }
+        k++;
+    }
+
+    // Copy remaining elements from left and right subarrays, if any
+    while (i < leftSize) {
+        array[k] = leftArray[i];
+        i++;
+        k++;
+    }
+
+    while (j < rightSize) {
+        array[k] = rightArray[j];
+        j++;
+        k++;
+    }
+}
+
 }
