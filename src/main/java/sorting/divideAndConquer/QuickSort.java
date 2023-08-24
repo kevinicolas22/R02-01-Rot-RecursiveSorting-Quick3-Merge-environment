@@ -12,9 +12,33 @@ import sorting.AbstractSorting;
  */
 public class QuickSort<T extends Comparable<T>> extends AbstractSorting<T> {
 
-	@Override
-	public void sort(T[] array, int leftIndex, int rightIndex) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Not implemented yet!");
-	}
+    @Override
+    public void sort(T[] array, int leftIndex, int rightIndex) {
+        if (leftIndex < rightIndex) { // Step 1
+            int pivotIndex = partition(array, leftIndex, rightIndex); // Step 2-3
+            sort(array, leftIndex, pivotIndex - 1); // Step 4
+            sort(array, pivotIndex + 1, rightIndex); // Step 4
+        }
+    }
+
+    private int partition(T[] array, int leftIndex, int rightIndex) {
+        T pivot = array[leftIndex]; // Step 2
+        int i = leftIndex;
+
+        for (int j = leftIndex + 1; j <= rightIndex; j++) {
+            if (array[j].compareTo(pivot) < 0) { // Step 3
+                i++;
+                swap(array, i, j);
+            }
+        }
+
+        swap(array, leftIndex, i); // Moves pivot to its final sorted position
+        return i; // Returns pivot index
+    }
+
+    private void swap(T[] array, int i, int j) {
+        T temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
 }
