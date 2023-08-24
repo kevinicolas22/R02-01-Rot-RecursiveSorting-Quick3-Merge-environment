@@ -14,26 +14,26 @@ public class QuickSort<T extends Comparable<T>> extends AbstractSorting<T> {
 
     @Override
     public void sort(T[] array, int leftIndex, int rightIndex) {
-        if (leftIndex < rightIndex) { // Step 1
+        if (leftIndex < rightIndex) {
             int pivotIndex = partition(array, leftIndex, rightIndex); // Step 2-3
-            sort(array, leftIndex, pivotIndex - 1); // Step 4
-            sort(array, pivotIndex + 1, rightIndex); // Step 4
+            sort(array, leftIndex, pivotIndex - 1); 
+            sort(array, pivotIndex + 1, rightIndex);
         }
     }
 
     private int partition(T[] array, int leftIndex, int rightIndex) {
-        T pivot = array[leftIndex]; // Step 2
+        T pivot = array[leftIndex];
         int i = leftIndex;
 
         for (int j = leftIndex + 1; j <= rightIndex; j++) {
-            if (array[j].compareTo(pivot) < 0) { // Step 3
+            if (array[j].compareTo(pivot) < 0) { 
                 i++;
                 swap(array, i, j);
             }
         }
 
-        swap(array, leftIndex, i); // Moves pivot to its final sorted position
-        return i; // Returns pivot index
+        swap(array, leftIndex, i); 
+        return i; 
     }
 
     private void swap(T[] array, int i, int j) {

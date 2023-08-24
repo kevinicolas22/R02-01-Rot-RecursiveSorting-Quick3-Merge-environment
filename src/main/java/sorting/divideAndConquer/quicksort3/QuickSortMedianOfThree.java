@@ -1,6 +1,7 @@
 package sorting.divideAndConquer.quicksort3;
 
 import sorting.AbstractSorting;
+import util.Util;
 
 /**
  * A classe QuickSortMedianOfThree representa uma variação do QuickSort que
@@ -18,59 +19,39 @@ import sorting.AbstractSorting;
  */
 public class QuickSortMedianOfThree<T extends Comparable<T>> extends AbstractSorting<T> {
 
-    public void sort(T[] array, int leftIndex, int rightIndex) {
-        if (leftIndex < rightIndex) {
-            int pivotIndex = medianOfThree(array, leftIndex, rightIndex);
-            pivotIndex = partition(array, leftIndex, rightIndex, pivotIndex);
-            sort(array, leftIndex, pivotIndex - 1);
-            sort(array, pivotIndex + 1, rightIndex);
-        }
-    }
-
-    private int medianOfThree(T[] array, int left, int right) {
-        int center = (left + right) / 2;
-
-        if (array[left].compareTo(array[center]) > 0) {
-            swap(array, left, center);
-        }
-        if (array[left].compareTo(array[right]) > 0) {
-            swap(array, left, right);
-        }
-        if (array[center].compareTo(array[right]) > 0) {
-            swap(array, center, right);
-        }
-
-        swap(array, center, right - 1); // Move pivot to right-1
-
-        return right - 1; // Return pivot index
-    }
-
-    private int partition(T[] array, int left, int right, int pivotIndex) {
-        T pivotValue = array[pivotIndex];
-        int leftPointer = left;
-        int rightPointer = right - 1;
-
-        while (true) {
-            while (array[++leftPointer].compareTo(pivotValue) < 0);
-            while (array[--rightPointer].compareTo(pivotValue) > 0);
-            
-            if (leftPointer >= rightPointer) {
-                break;
-            } else {
-                swap(array, leftPointer, rightPointer);
-            }
-        }
-
-        // Restore pivot to its original position
-        swap(array, leftPointer, right - 1);
-
-        return leftPointer;
-    }
-
     private void swap(T[] array, int i, int j) {
         T temp = array[i];
         array[i] = array[j];
         array[j] = temp;
+    }
+
+    private int[] performPartition(T[] array, int left, int right) {
+        T pivot = array[left];
+        int lowPointer = left;
+        int currentPointer = left;
+        int highPointer = right;
+
+        while (currentPointer <= highPointer) {
+            int comparison = array[currentPointer].compareTo(pivot);
+            if (comparison < 0) {
+                swap(array, lowPointer++, currentPointer++);
+            } else if (comparison > 0) {
+                swap(array, highPointer--, currentPointer);
+            } else {
+                currentPointer++;
+            }
+        }
+
+        return new int[] { lowPointer, highPointer };
+    }
+
+    @Override
+    public void sort(T[] array, int leftIndex, int rightIndex) {
+        if (leftIndex >= 0 && rightIndex <= array.length - 1 && leftIndex < rightIndex) {
+            int[] pivotIndices = performPartition(array, leftIndex, rightIndex);
+            sort(array, leftIndex, pivotIndices[0] - 1);
+            sort(array, pivotIndices[1] + 1, rightIndex);
+        }
     }
 }
 
