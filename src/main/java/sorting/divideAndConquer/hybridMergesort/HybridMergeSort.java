@@ -31,9 +31,18 @@ public class HybridMergeSort<T extends Comparable<T>> extends
 	private int MERGESORT_APPLICATIONS = 0;
 	private int INSERTIONSORT_APPLICATIONS = 0;
 
+    private boolean verificaDados(T[] array, int leftIndex, int rightIndex){
+            if(array.length >= 0 && leftIndex >= 0 && rightIndex >= 0 && rightIndex >= leftIndex && rightIndex < array.length){
+                return true;
+            }
+        return false;
+    }
+
         @Override
         public void sort(T[] array, int leftIndex, int rightIndex) {
 
+            if(verificaDados(array, leftIndex, rightIndex)){
+                
             MERGESORT_APPLICATIONS = 0;
             INSERTIONSORT_APPLICATIONS = 0;
 
@@ -52,6 +61,9 @@ public class HybridMergeSort<T extends Comparable<T>> extends
                 }
             }
         }
+        }
+
+           
 
         private void insertionSort(T[] array, int leftIndex, int rightIndex) {
             for (int i = leftIndex + 1; i <= rightIndex; i++) {

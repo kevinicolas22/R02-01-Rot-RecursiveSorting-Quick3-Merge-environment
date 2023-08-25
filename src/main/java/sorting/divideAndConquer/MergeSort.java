@@ -4,9 +4,17 @@ import sorting.AbstractSorting;
 
 public class MergeSort<T extends Comparable<T>> extends AbstractSorting<T> {
 
+    private boolean verificaDados(T[] array, int leftIndex, int rightIndex){
+        if(array.length >= 0 && leftIndex >= 0 && rightIndex >= 0 && rightIndex >= leftIndex && rightIndex < array.length){
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void sort(T[] array, int leftIndex, int rightIndex) {
-        
+        if(verificaDados(array, leftIndex, rightIndex)){
+
         if (leftIndex >= rightIndex) {
             return;
         }
@@ -17,6 +25,7 @@ public class MergeSort<T extends Comparable<T>> extends AbstractSorting<T> {
         sort(array, middleIndex + 1, rightIndex);
 
         merge(array, leftIndex, middleIndex, rightIndex);
+        }
     }
 
     private void merge(T[] array, int leftIndex, int middleIndex, int rightIndex) {

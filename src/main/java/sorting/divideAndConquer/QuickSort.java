@@ -11,13 +11,22 @@ import sorting.AbstractSorting;
  * has length == 1, it is already sorted.
  */
 public class QuickSort<T extends Comparable<T>> extends AbstractSorting<T> {
-
+    
+    private boolean verificaDados(T[] array, int leftIndex, int rightIndex){
+        if(array.length >= 0 && leftIndex >= 0 && rightIndex >= 0 && rightIndex >= leftIndex && rightIndex < array.length){
+            return true;
+        }
+        return false;
+    }
+    
     @Override
     public void sort(T[] array, int leftIndex, int rightIndex) {
+        if(verificaDados(array, leftIndex, rightIndex)){
         if (leftIndex < rightIndex) {
             int pivotIndex = partition(array, leftIndex, rightIndex); // Step 2-3
             sort(array, leftIndex, pivotIndex - 1); 
             sort(array, pivotIndex + 1, rightIndex);
+        }
         }
     }
 

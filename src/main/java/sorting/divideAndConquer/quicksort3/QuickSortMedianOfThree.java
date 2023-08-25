@@ -19,6 +19,13 @@ import util.Util;
  */
 public class QuickSortMedianOfThree<T extends Comparable<T>> extends AbstractSorting<T> {
 
+    private boolean verificaDados(T[] array, int leftIndex, int rightIndex){
+        if(array.length >= 0 && leftIndex >= 0 && rightIndex >= 0 && rightIndex >= leftIndex && rightIndex < array.length){
+            return true;
+        }
+        return false;
+    }
+
     private void swap(T[] array, int i, int j) {
         T temp = array[i];
         array[i] = array[j];
@@ -45,12 +52,17 @@ public class QuickSortMedianOfThree<T extends Comparable<T>> extends AbstractSor
         return new int[] { lowPointer, highPointer };
     }
 
+    
+    
     @Override
     public void sort(T[] array, int leftIndex, int rightIndex) {
+        if(verificaDados(array, leftIndex, rightIndex)){
+        
         if (leftIndex >= 0 && rightIndex <= array.length - 1 && leftIndex < rightIndex) {
             int[] pivotIndices = performPartition(array, leftIndex, rightIndex);
             sort(array, leftIndex, pivotIndices[0] - 1);
             sort(array, pivotIndices[1] + 1, rightIndex);
+        }
         }
     }
 }
